@@ -1,0 +1,14 @@
+version: "3"
+services:
+  everEmpMongo:
+    image: mongo:latest
+    container_name: "everEmpMongo"
+    ports:
+      - 27017:27017
+  pro-employee:
+    image: pro-employee:latest
+    container_name: pro-employee
+    ports:
+      - 8081:8081
+    links:
+      - everEmpMongo
