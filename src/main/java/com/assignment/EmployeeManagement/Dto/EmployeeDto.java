@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class EmployeeDto {
 
     @Id
-    private long id;
+    private Long id;
 
     @Indexed(unique = true)
     private String firstName;

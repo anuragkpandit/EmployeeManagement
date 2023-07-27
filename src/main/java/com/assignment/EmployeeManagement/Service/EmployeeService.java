@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface EmployeeService {
 
+    String welcomeMessage();
+
     EmployeeDto CreateEmployee(Employee employee);
 
     EmployeeDto updateEmployee(Long id, Employee employeeDetails) throws ResourceNotFoundException;

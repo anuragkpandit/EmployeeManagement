@@ -5,6 +5,11 @@ import com.assignment.EmployeeManagement.Dto.EmployeeDto;
 import com.assignment.EmployeeManagement.Entity.Employee;
 import com.assignment.EmployeeManagement.Exception.ResourceNotFoundException;
 import com.assignment.EmployeeManagement.Service.EmployeeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +21,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @Slf4j
 @RestController
+@RequestMapping(path = {"/api/v1"}, produces = APPLICATION_JSON_VALUE)
 public class EmployeeController {
 
 
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("/")
+    @Operation(summary = "welcome API")
+    @GetMapping("/welcome")
     public String welcomeMessage() {
         log.info("Get Employee list");
-        return "welcome to Employee service";
+        return employeeService.welcomeMessage();
     }
 
     //Add
@@ -42,7 +51,9 @@ public class EmployeeController {
         log.info("Get Employee list");
         return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
     }
-
+    @Operation(summary = "Get an Employee by its id")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found the Employee", content = {@Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = EmployeeDto.class))}),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content)})
     @GetMapping("/employee/{id}")
     public ResponseEntity<EmployeeDto> getEmployeeDetails(@Valid @PathVariable(value = "id") Long employeeId) throws ResourceNotFoundException {
 

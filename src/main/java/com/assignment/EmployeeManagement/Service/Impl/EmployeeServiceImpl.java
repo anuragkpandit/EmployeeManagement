@@ -29,6 +29,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeMapper employeeMapper;
 
     @Override
+    public String welcomeMessage() {
+        return "Hello Employee";
+    }
+
+    @Override
     public EmployeeDto CreateEmployee(Employee employee) {
         employee.setId(sequenceGeneratorService.generateSequence(Employee.SEQUENCE_NAME));
         log.info("Employee data saved successfully");
