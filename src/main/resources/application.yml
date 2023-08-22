@@ -9,6 +9,7 @@ spring:
 #      password: admin
 #      host: everEmpMongo
 #      port: 27017
-
 server:
   port: 8081
+
+

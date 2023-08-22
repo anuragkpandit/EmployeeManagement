@@ -1,10 +1,12 @@
 package com.assignment.EmployeeManagement.Service.Impl;
 
 import com.assignment.EmployeeManagement.Dto.EmployeeDto;
+import com.assignment.EmployeeManagement.Dto.Project;
 import com.assignment.EmployeeManagement.Entity.Employee;
 import com.assignment.EmployeeManagement.Entity.Office;
 import com.assignment.EmployeeManagement.Entity.Skills;
 import com.assignment.EmployeeManagement.Exception.ResourceNotFoundException;
+import com.assignment.EmployeeManagement.External.Services.ProjectService;
 import com.assignment.EmployeeManagement.Mapper.EmployeeMapper;
 import com.assignment.EmployeeManagement.Repository.EmployeeRepository;
 import com.assignment.EmployeeManagement.Service.EmployeeService;
@@ -28,6 +30,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeMapper employeeMapper;
 
+    @Autowired
+    private ProjectService projectService;
+
     @Override
     public String welcomeMessage() {
         return "Hello Employee";
@@ -36,6 +41,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto CreateEmployee(Employee employee) {
         employee.setId(sequenceGeneratorService.generateSequence(Employee.SEQUENCE_NAME));
+        Project project = new Project();
+//        project.setId(sequenceGeneratorService.generateSequence(Employee.SEQUENCE_NAME));
+        project.setProjectName("DATA");
+        project.setClientName("Analysis");
+        projectService.createProject(project);
         log.info("Employee data saved successfully");
         return employeeMapper.modelToDto(employeeRepository.save(employee));
     }
